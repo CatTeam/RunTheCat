@@ -1,0 +1,103 @@
+﻿using UnityEngine;
+using System.Collections;
+using Assets.Scripts.Player;
+
+public class PlayerController : MonoBehaviour
+{
+    public static PlayerController instance;
+    public int SuckPerSecond = 50;
+    public float moveSpeed = 10f;
+    public float jumpForce = 10f;
+    public Enemy CurrentEnemy { get; set; }
+    public PlayerState playerState { get; set; }
+
+    private Transform groundCheck;
+    private Transform teethCheck;
+    private Transform spawnPoint;
+
+    // Use this for initialization
+    void Start()
+    {
+        instance = this;
+        GetInitialReferences();
+        playerState = new PlayerState();
+        playerState.isFacingRight = true;
+        RestartPosition();
+    }
+
+    private void GetInitialReferences()
+    {
+        groundCheck = transform.Find("groundCheck");
+        teethCheck = transform.Find("teethCheck");
+        spawnPoint = GameObject.Find("SpawnDoor").transform;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        playerState.isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Map"));
+        playerState.isOnTeeth = Physics2D.Linecast(transform.position, teethCheck.position, 1 << LayerMask.NameToLayer("Map"));
+
+        if (Input.GetButtonDown("Jump"))
+            playerState.isJumping = true;
+
+        if (Input.GetKey("a"))
+        {
+            Move(false);
+        }
+        else if (Input.GetKey("d"))
+        {
+            Move(true);
+        }
+
+        if (playerState.isJumping && (playerState.isGrounded || playerState.isOnTeeth))
+        {
+            playerState.isJumping = false;
+            rigidbody2D.AddForce(new Vector2(0f, jumpForce));
+        }
+    }
+
+    void Flip()
+    {
+        playerState.isFacingRight = !playerState.isFacingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
+    public void Jump()
+    {
+        playerState.isJumping = true;
+    }
+
+    public void Move(bool moveRight)
+    {
+        if (!playerState.isOnTeeth)
+        {
+            if ((moveRight && !playerState.isFacingRight) || (!moveRight && playerState.isFacingRight))
+                Flip();
+            var translation = Time.deltaTime * moveSpeed * (moveRight ? 1 : -1);
+            transform.Translate(translation, 0, 0);
+        }
+    }
+    public void Suck()
+    {
+        if (CurrentEnemy != null && playerState.isOnEnemy)
+        {
+            CurrentEnemy.isDrained = true;
+            playerState.IsSucking = true;
+            CurrentEnemy.Drain();
+            if(gameObject.GetComponent<Player>().currentHp < Player.MAX_HP)
+                gameObject.GetComponent<Player>().currentHp += SuckPerSecond * Time.deltaTime;
+            gameObject.GetComponent<Player>().ChangeMaterialAlpha();
+        }
+        playerState.IsSucking = false;
+    }
+
+    public void RestartPosition()
+    {
+        transform.position = spawnPoint.position;
+    }
+
+}
