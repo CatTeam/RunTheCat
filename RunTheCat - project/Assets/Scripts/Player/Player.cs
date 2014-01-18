@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public int Score;
 
+	public bool isLevelFailed = false;
+
     // Use this for initialization
     void Start()
     {
@@ -17,16 +19,5 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-    }
-
-    public void Respawn()
-    {
-        PlayerController.instance.RestartPosition();
-    }
-
-    public void GameOver()
-    {
-        //TODO: GameOver action.
-        Respawn();// respawnuje sie dziwnie, do sprawdzenia/poprawienia jak będzie spiete z gui
     }
 }

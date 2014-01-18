@@ -8,8 +8,8 @@ public class DogInSnow : MonoBehaviour
         if (other.transform.gameObject.layer == 0)
         {
             if (other.gameObject.tag == "Player")
-            {
-                Player.instance.GameOver();
+			{
+				Player.instance.isLevelFailed = true;
             }
         }
 		

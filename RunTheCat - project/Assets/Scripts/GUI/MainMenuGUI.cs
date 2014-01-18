@@ -17,6 +17,7 @@ public class MainMenuGUI : MonoBehaviour
 	void Start()
 	{
 		currentGUIMethod = MainMenu;
+		Time.timeScale = 1;
 	}
 	
 	void OnGUI()
