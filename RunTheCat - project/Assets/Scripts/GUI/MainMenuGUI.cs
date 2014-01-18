@@ -3,6 +3,11 @@ using System.Collections;
 
 public class MainMenuGUI : MonoBehaviour
 {
+	public AudioClip buttonSound;
+	public AudioClip backgroundMusic;
+
+	private AudioSource backgroundMusicSource;
+
 	private const int MENU_HEIGHT = 265 * 2;
 	private const int MENU_WIDTH = 210 * 2;
 	private const int BUTTON_HEIGHT = 40 * 2;
@@ -18,6 +23,12 @@ public class MainMenuGUI : MonoBehaviour
 	{
 		currentGUIMethod = MainMenu;
 		Time.timeScale = 1;
+		
+		backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+		backgroundMusicSource.clip = backgroundMusic;
+		backgroundMusicSource.loop = true;
+		backgroundMusicSource.volume = 0.1f;
+        backgroundMusicSource.Play();
 	}
 	
 	void OnGUI()
@@ -31,16 +42,26 @@ public class MainMenuGUI : MonoBehaviour
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN, BUTTON_WIDTH, BUTTON_HEIGHT), "Play"))
 		{
+			audio.PlayOneShot(buttonSound);
 			currentGUIMethod = Levels;
 		}
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + (BUTTON_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Sound ON/OFF"))
 		{
-			// TODO: toggle sound
+			audio.PlayOneShot(buttonSound);
+			if (backgroundMusicSource.isPlaying)
+			{
+				backgroundMusicSource.Stop();
+			}
+			else
+			{
+				backgroundMusicSource.Play();
+			}
 		}
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + 2 * (BUTTON_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Credits"))
 		{
+			audio.PlayOneShot(buttonSound);
 			currentGUIMethod = Credits;
 		}
 		
@@ -58,21 +79,25 @@ public class MainMenuGUI : MonoBehaviour
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN, BUTTON_WIDTH, BUTTON_HEIGHT), "Test level"))
 		{
+			audio.PlayOneShot(buttonSound);
 			Application.LoadLevel("firstscene");
 		}
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + (BUTTON_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Level 2"))
 		{
+			audio.PlayOneShot(buttonSound);
 			Application.LoadLevel("Level2");
 		}
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + 2 * (BUTTON_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Level 3"))
 		{
+			audio.PlayOneShot(buttonSound);
 			Application.LoadLevel("Level3");
 		}
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + 3 * (BUTTON_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Back"))
 		{
+			audio.PlayOneShot(buttonSound);
 			currentGUIMethod = MainMenu;
 		}		
 		FunctionalKeys();
@@ -92,6 +117,7 @@ public class MainMenuGUI : MonoBehaviour
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + 4 * (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Back"))
 		{
+			audio.PlayOneShot(buttonSound);
 			currentGUIMethod = MainMenu;
 			return;
 		}
@@ -103,6 +129,7 @@ public class MainMenuGUI : MonoBehaviour
 	{
 		if (Input.GetKeyUp(KeyCode.Escape) && Event.current.type == EventType.KeyUp)
 		{
+			audio.PlayOneShot(buttonSound);
 			if (currentGUIMethod == MainMenu)
 			{
 				Application.Quit();
