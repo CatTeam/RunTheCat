@@ -3,34 +3,30 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    public static int MAX_HP = 50;
-
+    public static Player instance;
     [HideInInspector]
-    public double currentHp { get; set; }
+    public int Score;
 
     // Use this for initialization
     void Start()
     {
-        currentHp = MAX_HP;
+        instance = this;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentHp < MAX_HP)
-        {
-            GameOver();   
-        }
+
     }
 
     public void Respawn()
     {
         PlayerController.instance.RestartPosition();
-        currentHp = MAX_HP;
     }
 
     public void GameOver()
     {
         //TODO: GameOver action.
+        Respawn();// respawnuje sie dziwnie, do sprawdzenia/poprawienia jak będzie spiete z gui
     }
 }
