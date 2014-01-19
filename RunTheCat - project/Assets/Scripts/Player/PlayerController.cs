@@ -2,6 +2,7 @@
 using System.Collections;
 using Assets.Scripts.Player;
 using System.Threading;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 10f;
     public float moveForce = 200f;
     public string mapLayerName = "Map";
+    public float Ytarget=0f;
+    public float Ymargin = 1f;
+    public float YreturnForce = 3f;
     public PlayerState playerState { get; set; }
 
     private Transform groundCheck;
@@ -19,7 +23,6 @@ public class PlayerController : MonoBehaviour
     {
         instance = this;
         GetInitialReferences();
-        Debug.Log("Start! groundpos: " + groundCheck.position.ToString());
         spawnPoint = transform.position;
         playerState = new PlayerState();
         playerState.isFacingRight = true;
@@ -34,26 +37,41 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         playerState.isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer(mapLayerName));
-        if (!playerState.isGrounded)
+        if (playerState.isGrounded)
         {
-            var translation = -Time.deltaTime * moveSpeed;
-            transform.Translate(0, translation, 0);
+            Terrain.SetSpeed(Terrain.instance.minimumSpeed);
+        }else
+        {
+            Terrain.SetSpeed(Terrain.instance.normalSpeed);
         }
         Move();
+        
+    }
+
+    void FixedUpdate()
+    {
+        if (!playerState.isGrounded)
+        {
+            float yDistance = Ytarget - transform.position.y;
+            if (Math.Abs(yDistance) > Ymargin)
+            {
+                rigidbody2D.velocity = new Vector2(0, yDistance * YreturnForce);
+            }
+        }
     }
 
     public void Move()
     {
         Vector3 dir = Vector3.zero;
         dir.x = Input.acceleration.x;
-        dir.z = Input.acceleration.z;
+        //dir.z = Input.acceleration.z;
 
         transform.Translate(dir * Time.deltaTime * moveSpeed);
 
         //rigidbody2D.AddForce(dir * Time.deltaTime * moveForce);
     }
 
-    public void Dash(float translation)
+    public void VerticalTranslate(float translation)
     {
         transform.Translate(0, translation, 0);
     }
