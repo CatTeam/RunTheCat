@@ -64,14 +64,14 @@ public class GameGUI : MonoBehaviour
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN, BUTTON_WIDTH, BUTTON_HEIGHT), "Sound ON/OFF"))
 		{
 			audio.PlayOneShot(buttonSound);
-			if (backgroundMusicSource.isPlaying)
+			if (AudioListener.volume != 0)
 			{
-				backgroundMusicSource.Stop();
+				AudioListener.volume = 0;
 			}
 			else
-            {
-                backgroundMusicSource.Play();
-            }
+			{
+				AudioListener.volume = 1;
+			}
 		}
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + (BUTTON_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Main Menu"))
