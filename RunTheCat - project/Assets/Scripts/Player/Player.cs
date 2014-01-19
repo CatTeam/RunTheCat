@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
         PlayerController.instance.RestartPosition();
     }
 
+
     public void GameOver()
     {
         //TODO: GameOver action.
