@@ -3,6 +3,8 @@ using System.Collections;
 
 public class MainMenuGUI : MonoBehaviour
 {
+	public GUIStyle mainMenuBackground;
+    
 	public AudioClip buttonSound;
 	public AudioClip backgroundMusic;
 
@@ -38,7 +40,7 @@ public class MainMenuGUI : MonoBehaviour
 	
 	void MainMenu()
 	{
-		GUI.Box(new Rect((Screen.width - MENU_WIDTH) / 2, (Screen.height - MENU_HEIGHT) / 2, MENU_WIDTH, MENU_HEIGHT), "Main Menu");
+		GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "", mainMenuBackground);
 		
 		if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN, BUTTON_WIDTH, BUTTON_HEIGHT), "Play"))
 		{

@@ -39,8 +39,7 @@ public class GameGUI : MonoBehaviour
 	#region GUIs
 	void Game()
 	{	
-		// TODO: get score from player object
-		GUI.Box (new Rect (0,0,100,50), "Score: xxx");
+		GUI.Box (new Rect (0,0,100,50), "Score: " + Player.instance.Score.ToString());
 
 		if (Input.GetKeyUp (KeyCode.Escape) && Event.current.type == EventType.KeyUp)
 		{
