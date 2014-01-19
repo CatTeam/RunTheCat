@@ -11,7 +11,7 @@ public class PlayerVisibility : MonoBehaviour {
     void OnBecameInvisible()
     {
         Debug.Log("Disappeared!");
-        Player.instance.GameOver();
+		Player.instance.isLevelFailed = true;
     }
 
 }
