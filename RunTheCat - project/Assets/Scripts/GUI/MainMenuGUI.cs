@@ -33,7 +33,7 @@ public class MainMenuGUI : MonoBehaviour
     private delegate void GUIMethod();
     private GUIMethod currentGUIMethod;
 
-    private int currentLevel = -1;
+    private int unblockedLevelsCount = -1;
 
     void Start()
     {
@@ -124,10 +124,10 @@ public class MainMenuGUI : MonoBehaviour
                         Application.LoadLevel("Level" + i);
                     }
                 }
-                GUILayout.EndHorizontal();
-                
+                GUILayout.EndHorizontal();                
             }
-        }GUILayout.FlexibleSpace();
+        }
+        GUILayout.FlexibleSpace();
         GUILayout.EndVertical();
         
                 if (GUILayout.Button("", back))

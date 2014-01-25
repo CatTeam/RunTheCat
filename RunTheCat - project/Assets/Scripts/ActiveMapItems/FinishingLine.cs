@@ -10,6 +10,7 @@ public class FinishingLine : MonoBehaviour
             if (other.gameObject.tag == "Player")
             {
                 Debug.Log("Finished!");
+                Player.instance.isLevelCompleted = true;
             }
         }
     }

@@ -3,6 +3,10 @@ using System.Collections;
 
 public class GameGUI : MonoBehaviour
 {
+    public GUIStyle background;
+    public GUIStyle next;
+    public GUIStyle menu;
+
     public Texture buttonTexture;
 
 	public AudioClip buttonSound;
@@ -36,13 +40,6 @@ public class GameGUI : MonoBehaviour
     void OnGUI()
 	{
 		this.currentGUIMethod();
-
-        if (!buttonTexture)
-        {
-            Debug.LogError("Assign a Texture in the inspector.");
-            return;
-        }
-        GUI.DrawTexture(new Rect(10, 10, 60, 60), buttonTexture, ScaleMode.ScaleToFit, true, 10.0f);
 	}
 
 	#region GUIs
@@ -63,6 +60,11 @@ public class GameGUI : MonoBehaviour
 			Pause();
 			currentGUIMethod = FailedLevel;
 		}
+
+        if(Player.instance.isLevelCompleted)
+        {
+            currentGUIMethod = PassedLevel;
+        }
 	}
 
 	void PauseMenu()
@@ -147,6 +149,33 @@ public class GameGUI : MonoBehaviour
 			Application.LoadLevel("MainMenu");
 		}
 	}
+
+    void PassedLevel()
+    {
+        GUILayout.Label("",background, GUILayout.Width(Screen.width), GUILayout.Height(Screen.height));
+        GUILayout.BeginArea(new Rect(Screen.height / 8 - 20, Screen.height / 2 - 10, Screen.width, Screen.height));
+        {
+            GUILayout.BeginVertical(GUILayout.Height(Screen.height / 3), GUILayout.Width(Screen.width * 2 / 3));
+            {
+                if (GUILayout.Button("", next))
+                {
+                    audio.PlayOneShot(buttonSound);
+                    if(Application.loadedLevel + 1 == Application.levelCount)
+                        Application.LoadLevel("MainMenu");
+                    else
+                        Application.LoadLevel(Application.loadedLevel+1);
+                }
+
+                if (GUILayout.Button("", menu))
+                {
+                    audio.PlayOneShot(buttonSound);
+                    Application.LoadLevel("MainMenu");
+                }
+            }
+        }
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
+    }
 	#endregion GUIs
 
 	void Pause()
