@@ -2,7 +2,10 @@ fileFormatVersion: 2
 guid: 988feb43ac6bd744e8ffedc9fabce0e5
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - PlayButtonTexture: {fileID: 2800000, guid: 0ae412422cde027428ca9697411df9f8, type: 3}
+  - buttonSound: {instanceID: 0}
+  - backgroundMusic: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
     public float moveSpeed = 10f;
     public float moveForce = 200f;
+    public float jumpForce = 50;
     public string mapLayerName = "Map";
     public float Ytarget=0f;
     public float Ymargin = 1f;
@@ -39,7 +40,9 @@ public class PlayerController : MonoBehaviour
         playerState.isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer(mapLayerName));
         if (playerState.isGrounded)
         {
+            //rigidbody2D.AddForce(new Vector2(0, jumpForce));
             Terrain.SetSpeed(Terrain.instance.minimumSpeed);
+            Debug.Log("Grounded");
         }else
         {
             Terrain.SetSpeed(Terrain.instance.normalSpeed);

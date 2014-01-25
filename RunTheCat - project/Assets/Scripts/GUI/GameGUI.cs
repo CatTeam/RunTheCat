@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameGUI : MonoBehaviour
 {
+    public Texture buttonTexture;
+
 	public AudioClip buttonSound;
 	public AudioClip backgroundMusic;
 
@@ -34,6 +36,13 @@ public class GameGUI : MonoBehaviour
     void OnGUI()
 	{
 		this.currentGUIMethod();
+
+        if (!buttonTexture)
+        {
+            Debug.LogError("Assign a Texture in the inspector.");
+            return;
+        }
+        GUI.DrawTexture(new Rect(10, 10, 60, 60), buttonTexture, ScaleMode.ScaleToFit, true, 10.0f);
 	}
 
 	#region GUIs
