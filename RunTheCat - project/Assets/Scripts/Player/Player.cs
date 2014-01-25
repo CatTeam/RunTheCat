@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public int Score;
 
 	public bool isLevelFailed = false;
+    public bool isLevelCompleted = false;
 
     // Use this for initialization
     void Start()
