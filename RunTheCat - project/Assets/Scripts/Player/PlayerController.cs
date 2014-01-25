@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float moveForce = 200f;
     public float jumpForce = 50;
     public string mapLayerName = "Map";
-    public float Ytarget=0f;
+    public float Ytarget = 0f;
     public float Ymargin = 1f;
     public float YreturnForce = 3f;
     public PlayerState playerState { get; set; }
@@ -27,6 +27,27 @@ public class PlayerController : MonoBehaviour
         spawnPoint = transform.position;
         playerState = new PlayerState();
         playerState.isFacingRight = true;
+        LowPassFilter.Initialize();
+    }
+
+    private static class LowPassFilter
+    {
+        public static float AccelerometerUpdateInterval = 1.0f / 60.0f;
+        public static float LowPassKernelWidthInSeconds = 0.5f;
+
+        private static float LowPassFilterFactor;  // tweakable
+        private static Vector3 lowPassValue = Vector3.zero;
+
+        public static void Initialize()
+        {
+            LowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
+            lowPassValue = Input.acceleration;
+        }
+        public static Vector3 Accelerometer()
+        {
+            lowPassValue = Vector3.Lerp(lowPassValue, Input.acceleration, LowPassFilterFactor);
+            return lowPassValue;
+        }
     }
 
     private void GetInitialReferences()
@@ -43,12 +64,13 @@ public class PlayerController : MonoBehaviour
             //rigidbody2D.AddForce(new Vector2(0, jumpForce));
             Terrain.SetSpeed(Terrain.instance.minimumSpeed);
             Debug.Log("Grounded");
-        }else
+        }
+        else
         {
             Terrain.SetSpeed(Terrain.instance.normalSpeed);
         }
         Move();
-        
+
     }
 
     void FixedUpdate()
@@ -65,11 +87,16 @@ public class PlayerController : MonoBehaviour
 
     public void Move()
     {
-        Vector3 dir = Vector3.zero;
-        dir.x = Input.acceleration.x;
+        float lean = Input.acceleration.x;
+        float filterLean = LowPassFilter.Accelerometer().x;
+        filterLean = Mathf.Clamp(filterLean, -0.5f, 0.5f);
+
+        Vector3 rotation = new Vector3(0, 0, filterLean * 90);
         //dir.z = Input.acceleration.z;
 
-        transform.Translate(dir * Time.deltaTime * moveSpeed);
+        transform.Translate(Vector3.right * lean * Time.deltaTime * moveSpeed);
+        transform.rotation = Quaternion.identity;
+        transform.Rotate(rotation);
 
         //rigidbody2D.AddForce(dir * Time.deltaTime * moveForce);
     }
