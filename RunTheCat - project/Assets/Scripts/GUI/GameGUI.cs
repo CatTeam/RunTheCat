@@ -63,6 +63,7 @@ public class GameGUI : MonoBehaviour
 
         if(Player.instance.isLevelCompleted)
         {
+			Pause();
             currentGUIMethod = PassedLevel;
         }
 	}

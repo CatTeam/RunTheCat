@@ -12,8 +12,8 @@ public class Ball : MonoBehaviour
             {
                 Player.instance.Score += PointsGotten;
                 Debug.Log(Player.instance.Score);
+				gameObject.SetActive(false);
             }
         }
-
     }
 }
