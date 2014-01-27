@@ -3,6 +3,7 @@ using System.Collections;
 
 public static class PlayerPrefsHelper
 {
+	#region highscores
 	private static string levelKeyFormat = "Level{0}Highscore";
 
 	/// <summary>
@@ -51,4 +52,23 @@ public static class PlayerPrefsHelper
 		           "score level " + level + " " + PlayerPrefs.GetInt(key)
 		           : ("brak score level " + level));
 	}
+	#endregion highscore
+
+	#region music	
+	private static string musicKey = "music";
+
+	public static void SaveMusicOn(bool isMusicOn)
+	{
+		PlayerPrefs.SetInt(musicKey, isMusicOn ? 1 : 0);
+		PlayerPrefs.Save();
+	}
+
+	public static bool? GetMusicOn()
+	{
+		if (PlayerPrefs.HasKey(musicKey))
+			return PlayerPrefs.GetInt(musicKey) == 1;
+		else
+			return null;
+	}
+	#endregion music
 }

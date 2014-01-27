@@ -46,6 +46,11 @@ public class MainMenuGUI : MonoBehaviour
         backgroundMusicSource.volume = 0.1f;
         backgroundMusicSource.Play();
 
+        var musicOn = PlayerPrefsHelper.GetMusicOn();
+        if (musicOn.HasValue && musicOn.Value || !musicOn.HasValue)
+            AudioListener.volume = 1;
+        else
+            AudioListener.volume = 0;
     }
 
     void OnGUI()
@@ -72,10 +77,12 @@ public class MainMenuGUI : MonoBehaviour
                     if (AudioListener.volume != 0)
                     {
                         AudioListener.volume = 0;
+                        PlayerPrefsHelper.SaveMusicOn(false);
                     }
                     else
                     {
                         AudioListener.volume = 1;
+                        PlayerPrefsHelper.SaveMusicOn(true);
                     }
                 }
 

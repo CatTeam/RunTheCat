@@ -34,7 +34,7 @@ public class GameGUI : MonoBehaviour
 		backgroundMusicSource.clip = backgroundMusic;
 		backgroundMusicSource.loop = true;
 		backgroundMusicSource.volume = 0.1f;
-		backgroundMusicSource.Play();
+    	backgroundMusicSource.Play();
     }
     
     void OnGUI()
@@ -78,10 +78,12 @@ public class GameGUI : MonoBehaviour
 			if (AudioListener.volume != 0)
 			{
 				AudioListener.volume = 0;
+                PlayerPrefsHelper.SaveMusicOn(false);
 			}
 			else
 			{
 				AudioListener.volume = 1;
+                PlayerPrefsHelper.SaveMusicOn(true);
 			}
 		}
 		
