@@ -46,11 +46,7 @@ public class MainMenuGUI : MonoBehaviour
         backgroundMusicSource.volume = 0.1f;
         backgroundMusicSource.Play();
 
-        var musicOn = PlayerPrefsHelper.GetMusicOn();
-        if (musicOn.HasValue && musicOn.Value || !musicOn.HasValue)
-            AudioListener.volume = 1;
-        else
-            AudioListener.volume = 0;
+        AudioListener.volume = PlayerPrefsHelper.GetMusicOn() ? 1 : 0;
     }
 
     void OnGUI()
@@ -128,7 +124,8 @@ public class MainMenuGUI : MonoBehaviour
                     if (GUILayout.Button("", style))
                     {
                         audio.PlayOneShot(buttonSound);
-                        Application.LoadLevel("Level" + i);
+                        if (PlayerPrefsHelper.GetFinishedLevelsNo() + 1 >= i)
+                            Application.LoadLevel("Level" + i);
                     }
                 }
                 GUILayout.EndHorizontal();                
