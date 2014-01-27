@@ -33,8 +33,6 @@ public class MainMenuGUI : MonoBehaviour
     private delegate void GUIMethod();
     private GUIMethod currentGUIMethod;
 
-    private int unblockedLevelsCount = -1;
-
     void Start()
     {
         currentGUIMethod = MainMenu;

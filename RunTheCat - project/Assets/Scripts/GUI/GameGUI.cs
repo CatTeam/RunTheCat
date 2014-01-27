@@ -25,9 +25,12 @@ public class GameGUI : MonoBehaviour
 	private delegate void GUIMethod();
 	private GUIMethod currentGUIMethod;
 
+    private int levelHighScore;
+
 	void Start()
 	{
-		currentGUIMethod = Game;
+        levelHighScore = PlayerPrefsHelper.GetLevelHighScore(GameObject.FindObjectOfType<FinishingLine>().levelNo);
+        currentGUIMethod = Game;
 		Time.timeScale = 1;
 		
 		backgroundMusicSource = gameObject.AddComponent<AudioSource>();
@@ -45,7 +48,7 @@ public class GameGUI : MonoBehaviour
 	#region GUIs
 	void Game()
 	{	
-		GUI.Box (new Rect (0,0,100,50), "Score: " + Player.instance.Score.ToString());
+		GUI.Box (new Rect (0,0,100,50), "Highscore: " + levelHighScore + "\nScore: " + Player.instance.Score.ToString());
 
 		if (Input.GetKeyUp (KeyCode.Escape) && Event.current.type == EventType.KeyUp)
 		{
