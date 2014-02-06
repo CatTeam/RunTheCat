@@ -3,9 +3,9 @@ using System.Collections;
 
 public class GameGUI : MonoBehaviour
 {
-    public GUIStyle background;
-    public GUIStyle next;
-    public GUIStyle menu;
+    public GUIStyle passedLevelBackground;
+    private GUIStyle next;
+    private GUIStyle menu;
 
     public Texture buttonTexture;
 
@@ -22,13 +22,41 @@ public class GameGUI : MonoBehaviour
 	private const int MARIGIN = 25 * 2;
 	private const int LABEL_HEIGHT = 25 * 2;
 
+    private const int NEXT_BTN_WIDTH = 194;
+    private const int NEXT_BTN_HEIGHT = 70;
+    private const int MENU_BTN_WIDTH = 202;
+    private const int MENU_BTN_HEIGHT = 70;
+
 	private delegate void GUIMethod();
 	private GUIMethod currentGUIMethod;
 
     private int levelHighScore;
 
+    private void LoadTextTextures()
+    {
+        next = new GUIStyle();
+        next.fixedHeight = BUTTON_HEIGHT;
+        next.fixedWidth = NEXT_BTN_WIDTH * BUTTON_HEIGHT / NEXT_BTN_HEIGHT;
+        next.normal.background = Resources.Load("Text/" + "next") as Texture2D;
+        next.hover.background = Resources.Load("Text" + "nextclicked") as Texture2D;
+
+        menu = new GUIStyle();
+        menu.fixedHeight = BUTTON_HEIGHT;
+        menu.fixedWidth = MENU_BTN_WIDTH * BUTTON_HEIGHT / MENU_BTN_HEIGHT;
+        menu.normal.background = Resources.Load("Text/" + "menu") as Texture2D;
+        menu.hover.background = Resources.Load("Text/" + "menuclick") as Texture2D;
+        menu.margin.left =0;
+
+        next.margin.left = (int)(menu.fixedWidth - next.fixedWidth) / 2;
+
+        passedLevelBackground = new GUIStyle();
+        passedLevelBackground.normal.background = Resources.Load("Backgrounds/" + "passed_level_background") as Texture2D;
+        passedLevelBackground.stretchHeight = true;
+        passedLevelBackground.stretchWidth = true;
+    }
 	void Start()
 	{
+        LoadTextTextures();
         levelHighScore = PlayerPrefsHelper.GetLevelHighScore(GameObject.FindObjectOfType<FinishingLine>().levelNo);
         currentGUIMethod = Game;
 		Time.timeScale = 1;
@@ -158,10 +186,11 @@ public class GameGUI : MonoBehaviour
 
     void PassedLevel()
     {
-        GUILayout.Label("",background, GUILayout.Width(Screen.width), GUILayout.Height(Screen.height));
-        GUILayout.BeginArea(new Rect(Screen.height / 8 - 20, Screen.height / 2 - 10, Screen.width, Screen.height));
+        //GUI.Box(new Rect((Screen.width - MENU_WIDTH) / 2, (Screen.height - MENU_HEIGHT) / 2, MENU_WIDTH, MENU_HEIGHT), "Congrats!");
+        GUILayout.Label("",passedLevelBackground, GUILayout.Width(Screen.width), GUILayout.Height(Screen.height));
+        GUILayout.BeginArea(new Rect((Screen.width - menu.fixedWidth)/2, (Screen.height) / 2 - BUTTON_HEIGHT, Screen.width, Screen.height));
         {
-            GUILayout.BeginVertical(GUILayout.Height(Screen.height / 3), GUILayout.Width(Screen.width * 2 / 3));
+            GUILayout.BeginVertical();
             {
                 if (GUILayout.Button("", next))
                 {

@@ -21,6 +21,7 @@ public class MainMenuGUI : MonoBehaviour
     public AudioClip backgroundMusic;
 
     private AudioSource backgroundMusicSource;
+    private GUIStyle menu;
 
     private const int MENU_HEIGHT = 265 * 2;
     private const int MENU_WIDTH = 210 * 2;
@@ -30,11 +31,15 @@ public class MainMenuGUI : MonoBehaviour
     private const int MARIGIN = 25 * 2;
     private const int LABEL_HEIGHT = 25 * 2;
 
+    private const int MENU_BTN_WIDTH = 202;
+    private const int MENU_BTN_HEIGHT = 70;
+
     private delegate void GUIMethod();
     private GUIMethod currentGUIMethod;
 
     void Start()
     {
+        LoadTextures();
         currentGUIMethod = MainMenu;
         Time.timeScale = 1;
 
@@ -45,6 +50,16 @@ public class MainMenuGUI : MonoBehaviour
         backgroundMusicSource.Play();
 
         AudioListener.volume = PlayerPrefsHelper.GetMusicOn() ? 1 : 0;
+    }
+
+    private void LoadTextures()
+    {
+        menu = new GUIStyle();
+        menu.fixedHeight = BUTTON_HEIGHT / 2;
+        menu.fixedWidth = MENU_BTN_WIDTH * BUTTON_HEIGHT/2 / MENU_BTN_HEIGHT;
+        menu.normal.background = Resources.Load("Text/" + "menu") as Texture2D;
+        menu.hover.background = Resources.Load("Text/" + "menuclick") as Texture2D;
+        menu.margin.left =(int) (Screen.width - menu.fixedWidth)/2;
     }
 
     void OnGUI()
@@ -132,7 +147,7 @@ public class MainMenuGUI : MonoBehaviour
         GUILayout.FlexibleSpace();
         GUILayout.EndVertical();
         
-                if (GUILayout.Button("", back))
+                if (GUILayout.Button("", menu))
                 {
                     audio.PlayOneShot(buttonSound);
                     currentGUIMethod = MainMenu;
