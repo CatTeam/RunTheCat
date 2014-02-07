@@ -13,7 +13,7 @@ public class MainMenuGUI : MonoBehaviour
     public GUIStyle frame;
 
     public GUIStyle LevelText;
-    public int LevelsCount;
+    public int LevelsCount = 6;
     public int levelsInRow = 4;
 
 
@@ -28,11 +28,14 @@ public class MainMenuGUI : MonoBehaviour
     private const int BUTTON_HEIGHT = 40 * 2;
     private const int BUTTON_WIDTH = 160 * 2;
     private const int HORIZONTAL_BREAK = 20 * 2;
-    private const int MARIGIN = 25 * 2;
+    private const int MARGIN = 25 * 2;
     private const int LABEL_HEIGHT = 25 * 2;
+    private int LEVEL_HEIGHT = Screen.height / 8;
 
     private const int MENU_BTN_WIDTH = 202;
     private const int MENU_BTN_HEIGHT = 70;
+    private const int LVL_BTN_WIDTH = 116;
+    private const int LVL_BTN_HEIGHT = 137;
 
     private delegate void GUIMethod();
     private GUIMethod currentGUIMethod;
@@ -56,10 +59,10 @@ public class MainMenuGUI : MonoBehaviour
     {
         menu = new GUIStyle();
         menu.fixedHeight = BUTTON_HEIGHT / 2;
-        menu.fixedWidth = MENU_BTN_WIDTH * BUTTON_HEIGHT/2 / MENU_BTN_HEIGHT;
+        menu.fixedWidth = MENU_BTN_WIDTH * BUTTON_HEIGHT / 2 / MENU_BTN_HEIGHT;
         menu.normal.background = Resources.Load("Text/" + "menu") as Texture2D;
         menu.hover.background = Resources.Load("Text/" + "menuclick") as Texture2D;
-        menu.margin.left =(int) (Screen.width - menu.fixedWidth)/2;
+        menu.margin.left = (int)(Screen.width - menu.fixedWidth) / 2;
     }
 
     void OnGUI()
@@ -117,41 +120,53 @@ public class MainMenuGUI : MonoBehaviour
     {
         GUILayout.Label("", frame, GUILayout.Width(Screen.width), GUILayout.Height(Screen.height));
 
-        GUILayout.BeginArea(new Rect(10, 40, Screen.width, Screen.height));
+        GUILayout.BeginArea(new Rect(MARGIN, MARGIN, Screen.width - MARGIN * 2, Screen.height - MARGIN * 2));
         {
             GUILayout.Label("", LevelText, GUILayout.Width(Screen.width), GUILayout.Height(30));
-            GUILayout.BeginVertical(GUILayout.Height(Screen.height - 160), GUILayout.Width(Screen.width));
+            GUILayout.BeginVertical(GUILayout.Height(Screen.height * 2 /3), GUILayout.Width(Screen.width));
             {
-                GUILayout.BeginHorizontal(GUILayout.Width(Screen.width - 20));
+                GUILayout.BeginHorizontal(GUILayout.Width(Screen.width - MARGIN * 2));
                 for (int i = 1; i <= LevelsCount; i++)
                 {
-                    var style = new GUIStyle();
-                    style.normal.background = Resources.Load("LevelThumbs/" + i) as Texture2D;
-                    style.fixedHeight = 40;
-                    style.fixedWidth = 40;
+                    var lvlButton = new GUIStyle();
+                    if (i > PlayerPrefsHelper.GetFinishedLevelsNo())
+                    {
+                        lvlButton.normal.background = Resources.Load("LevelThumbs/" + i) as Texture2D;
+                        lvlButton.hover.background = Resources.Load("LevelThumbs/" + i + "c") as Texture2D;
+                    }
+                    else
+                    {
+                        lvlButton.normal.background = Resources.Load("LevelThumbs/v") as Texture2D;
+                    }
+
+                    lvlButton.fixedHeight = LEVEL_HEIGHT;
+                    lvlButton.fixedWidth = LVL_BTN_WIDTH * LEVEL_HEIGHT / LVL_BTN_HEIGHT;
+                    ;
                     if (i % (levelsInRow + 1) == 0)
                     {
                         GUILayout.EndHorizontal();
-                        GUILayout.BeginHorizontal(GUILayout.Width(Screen.width - 20));
+                        GUILayout.FlexibleSpace();
+                        GUILayout.BeginHorizontal(GUILayout.Width(Screen.width - MARGIN * 2));
                     }
-                    if (GUILayout.Button("", style))
+                    if (GUILayout.Button("", lvlButton))
                     {
                         audio.PlayOneShot(buttonSound);
                         if (PlayerPrefsHelper.GetFinishedLevelsNo() + 1 >= i)
                             Application.LoadLevel("Level" + i);
                     }
+                    GUILayout.FlexibleSpace();
                 }
-                GUILayout.EndHorizontal();                
+                GUILayout.EndHorizontal();
             }
         }
         GUILayout.FlexibleSpace();
         GUILayout.EndVertical();
-        
-                if (GUILayout.Button("", menu))
-                {
-                    audio.PlayOneShot(buttonSound);
-                    currentGUIMethod = MainMenu;
-                }
+
+        if (GUILayout.Button("", menu))
+        {
+            audio.PlayOneShot(buttonSound);
+            currentGUIMethod = MainMenu;
+        }
         GUILayout.EndArea();
 
         FunctionalKeys();
@@ -161,15 +176,15 @@ public class MainMenuGUI : MonoBehaviour
     {
         GUI.Box(new Rect((Screen.width - MENU_WIDTH) / 2, (Screen.height - MENU_HEIGHT) / 2, MENU_WIDTH, MENU_HEIGHT), "Credits");
 
-        GUI.Label(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN, BUTTON_WIDTH, LABEL_HEIGHT), "Harriet");
+        GUI.Label(new Rect((Screen.width - MENU_WIDTH) / 2 + MARGIN, (Screen.height - MENU_HEIGHT) / 2 + MARGIN, BUTTON_WIDTH, LABEL_HEIGHT), "Harriet");
 
-        GUI.Label(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, LABEL_HEIGHT), "Iroq");
+        GUI.Label(new Rect((Screen.width - MENU_WIDTH) / 2 + MARGIN, (Screen.height - MENU_HEIGHT) / 2 + MARGIN + (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, LABEL_HEIGHT), "Iroq");
 
-        GUI.Label(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + 2 * (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, LABEL_HEIGHT), "Kostka");
+        GUI.Label(new Rect((Screen.width - MENU_WIDTH) / 2 + MARGIN, (Screen.height - MENU_HEIGHT) / 2 + MARGIN + 2 * (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, LABEL_HEIGHT), "Kostka");
 
-        GUI.Label(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + 3 * (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, LABEL_HEIGHT), "Nahikka");
+        GUI.Label(new Rect((Screen.width - MENU_WIDTH) / 2 + MARGIN, (Screen.height - MENU_HEIGHT) / 2 + MARGIN + 3 * (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, LABEL_HEIGHT), "Nahikka");
 
-        if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARIGIN, (Screen.height - MENU_HEIGHT) / 2 + MARIGIN + 4 * (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Back"))
+        if (GUI.Button(new Rect((Screen.width - MENU_WIDTH) / 2 + MARGIN, (Screen.height - MENU_HEIGHT) / 2 + MARGIN + 4 * (LABEL_HEIGHT + HORIZONTAL_BREAK), BUTTON_WIDTH, BUTTON_HEIGHT), "Back"))
         {
             audio.PlayOneShot(buttonSound);
             currentGUIMethod = MainMenu;
