@@ -22,7 +22,7 @@ public class DashPowerUp : MonoBehaviour
             else
             {
                 isDashing = false;
-                //Player.instance.transform.FindChild("sprite").collider2D.enabled = true;
+                Player.instance.transform.GetComponent<CircleCollider2D>().enabled = true;
                 Terrain.RestoreSpeed();
                 Debug.Log("Dash finished");
             }
@@ -37,7 +37,7 @@ public class DashPowerUp : MonoBehaviour
             {
                 Debug.Log("Dash triggered");
                 isDashing = true;
-                //Player.instance.transform.FindChild("sprite").collider2D.enabled = false;
+                Player.instance.transform.GetComponent<CircleCollider2D>().enabled = false;
                 Terrain.ChangeAndSaveSpeed(SPEED);
                 this.gameObject.transform.FindChild("sprite").gameObject.SetActive(false);
             }
