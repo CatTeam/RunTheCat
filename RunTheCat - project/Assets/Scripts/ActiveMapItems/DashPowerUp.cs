@@ -3,42 +3,44 @@ using System.Collections;
 
 public class DashPowerUp : MonoBehaviour
 {
-    public int DashDistance = 100;
-    public float DashSeconds = 2;
-    private bool DashInProgress = false;
-    private float TimePassed = 0;
+    public float DashLength = 100f;
 
-    //Dash temporarily disabled
+    private bool isDashing = false;
+    private const int SPEED = 50;
 
-    //void Update()
-    //{
-    //    if(DashInProgress)
-    //    {
-    //        Debug.Log("Dash in progress");
-    //        if(TimePassed < DashSeconds)
-    //        {
-    //            float translation = - Time.deltaTime * DashDistance / DashSeconds;
-    //            PlayerController.instance.VerticalTranslate(translation);
-    //            TimePassed += Time.deltaTime;
-    //        }
-    //        else
-    //        {
-    //            DashInProgress = false;
-    //            TimePassed = 0;
-    //            Player.instance.transform.FindChild("sprite").collider2D.enabled = true;
-    //        }
-    //    }
-    //}
+    // DOTO: implement invulnerability to obstacles while in dash
 
-    //private void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (other.transform.gameObject.layer == 0)
-    //    {
-    //        if (other.gameObject.tag == "Player")
-    //        {
-    //            DashInProgress = true;
-    //            Player.instance.transform.FindChild("sprite").collider2D.enabled = false;
-    //        }
-    //    }
-    //}
+    void Update()
+    {
+        if (isDashing)
+        {
+            Debug.Log("Dash in progress");
+            if (DashLength > 0)
+            {
+                DashLength -= Time.deltaTime * SPEED;
+            }
+            else
+            {
+                isDashing = false;
+                //Player.instance.transform.FindChild("sprite").collider2D.enabled = true;
+                Terrain.RestoreSpeed();
+                Debug.Log("Dash finished");
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.transform.gameObject.layer == 0)
+        {
+            if (other.gameObject.tag == "Player" && !isDashing)
+            {
+                Debug.Log("Dash triggered");
+                isDashing = true;
+                //Player.instance.transform.FindChild("sprite").collider2D.enabled = false;
+                Terrain.ChangeAndSaveSpeed(SPEED);
+                this.gameObject.transform.FindChild("sprite").gameObject.SetActive(false);
+            }
+        }
+    }
 }

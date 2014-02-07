@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Ball : MonoBehaviour 
+public class BonusPowerUp : MonoBehaviour 
 {
     public int PointsGotten = 100;
     private void OnTriggerEnter2D(Collider2D other)
