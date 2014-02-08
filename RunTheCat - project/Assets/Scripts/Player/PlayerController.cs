@@ -93,13 +93,17 @@ public class PlayerController : MonoBehaviour
         float filterLean = LowPassFilter.Accelerometer().x;
         filterLean = Mathf.Clamp(filterLean, -0.3f, 0.3f);
 
+
         Vector3 rotation = new Vector3(0, 0, filterLean * 90);
         //dir.z = Input.acceleration.z;
 
         if (moveEnabled)
             transform.Translate(Vector3.right * lean * Time.deltaTime * moveSpeed);
-        transform.rotation = Quaternion.identity;
-        transform.Rotate(rotation);
+        if(Time.timeScale!=0)
+        {
+            transform.rotation = Quaternion.identity;
+            transform.Rotate(rotation);
+        }
 
         //rigidbody2D.AddForce(dir * Time.deltaTime * moveForce);
     }
