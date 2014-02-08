@@ -3,9 +3,9 @@ using System.Collections;
 
 public class GameGUI : MonoBehaviour
 {
-    public GUIStyle passedLevelBackground;
-    public GUIStyle failedLevelBackground;
-    public GUIStyle bigFrame;
+    private GUIStyle passedLevelBackground;
+    private GUIStyle failedLevelBackground;
+    private GUIStyle bigFrame;
 
     private GUIStyle popupBackground;
     private GUIStyle next;
@@ -31,7 +31,7 @@ public class GameGUI : MonoBehaviour
 
     private const int MENU_HEIGHT = 225 * 2;
     private const int MENU_WIDTH = 210 * 2;
-    private const int BUTTON_HEIGHT = 40 * 2;
+    private readonly int BUTTON_HEIGHT = Screen.height / 10;
     private const int BUTTON_WIDTH = 160 * 2;
     private const int HORIZONTAL_BREAK = 20 * 2;
     private const int MARGIN = 25 * 2;
@@ -162,6 +162,14 @@ public class GameGUI : MonoBehaviour
         pause.fixedHeight = BUTTON_HEIGHT;
         pause.fixedWidth = PAUSE_BTN_WIDTH * BUTTON_HEIGHT / PAUSE_BTN_HEIGHT;
         pause.normal.background = Resources.Load("Text/" + "pause") as Texture2D;
+
+        passedLevelBackground = new GUIStyle();
+        failedLevelBackground = new GUIStyle();
+        bigFrame = new GUIStyle();
+
+        passedLevelBackground.normal.background = Resources.Load("Backgrounds/passed_level_background") as Texture2D;
+        failedLevelBackground.normal.background = Resources.Load("Backgrounds/failed_level_background") as Texture2D;
+        bigFrame.normal.background = Resources.Load("Backgrounds/big_frame") as Texture2D;
     }
 
     void Awake()
@@ -226,7 +234,7 @@ public class GameGUI : MonoBehaviour
             GUILayout.Label("", pause);
         }
         GUILayout.EndArea();
-        GUILayout.BeginArea(new Rect((Screen.width - music.fixedWidth) / 2, Screen.height / 3, Screen.width - (Screen.width - music.fixedWidth) / 2, Screen.height /4));
+        GUILayout.BeginArea(new Rect((Screen.width - music.fixedWidth) / 2, Screen.height / 3, Screen.width - (Screen.width - music.fixedWidth) / 2, Screen.height / 4));
         {
             GUILayout.BeginVertical();
             {
