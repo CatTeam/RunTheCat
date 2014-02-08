@@ -24,6 +24,7 @@ public class DashPowerUp : MonoBehaviour
                 isDashing = false;
                 Player.instance.transform.GetComponent<CircleCollider2D>().enabled = true;
                 Terrain.RestoreSpeed();
+                Player.instance.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
                 Debug.Log("Dash finished");
             }
         }
@@ -39,7 +40,8 @@ public class DashPowerUp : MonoBehaviour
                 isDashing = true;
                 Player.instance.transform.GetComponent<CircleCollider2D>().enabled = false;
                 Terrain.ChangeAndSaveSpeed(SPEED);
-                this.gameObject.transform.FindChild("sprite").gameObject.SetActive(false);
+                Player.instance.GetComponent<SpriteRenderer>().sortingLayerName = "PlayerDashing";
+                this.renderer.enabled = false;
             }
         }
     }

@@ -58,18 +58,24 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerState.isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer(mapLayerName));
-        if (playerState.isGrounded)
+        if (collider2D.enabled)
         {
-            //rigidbody2D.AddForce(new Vector2(0, jumpForce));
-            Terrain.SetSpeed(Terrain.instance.minimumSpeed);
-            Debug.Log("Grounded");
+            playerState.isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer(mapLayerName));
+            if (playerState.isGrounded)
+            {
+                //rigidbody2D.AddForce(new Vector2(0, jumpForce));
+                Terrain.SetSpeed(Terrain.instance.minimumSpeed);
+                Debug.Log("Grounded");
+            }
+            else
+            {
+                Terrain.SetSpeed(Terrain.instance.normalSpeed);
+            }
         }
         else
         {
             Terrain.SetSpeed(Terrain.instance.normalSpeed);
         }
-
         Move();
 
     }
