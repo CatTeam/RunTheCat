@@ -7,6 +7,7 @@ using System;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
+    public bool moveEnabled = true;
     public float moveSpeed = 10f;
     public float moveForce = 200f;
     public float jumpForce = 50;
@@ -69,6 +70,7 @@ public class PlayerController : MonoBehaviour
         {
             Terrain.SetSpeed(Terrain.instance.normalSpeed);
         }
+
         Move();
 
     }
@@ -89,12 +91,13 @@ public class PlayerController : MonoBehaviour
     {
         float lean = Input.acceleration.x;
         float filterLean = LowPassFilter.Accelerometer().x;
-        filterLean = Mathf.Clamp(filterLean, -0.5f, 0.5f);
+        filterLean = Mathf.Clamp(filterLean, -0.3f, 0.3f);
 
         Vector3 rotation = new Vector3(0, 0, filterLean * 90);
         //dir.z = Input.acceleration.z;
 
-        transform.Translate(Vector3.right * lean * Time.deltaTime * moveSpeed);
+        if (moveEnabled)
+            transform.Translate(Vector3.right * lean * Time.deltaTime * moveSpeed);
         transform.rotation = Quaternion.identity;
         transform.Rotate(rotation);
 
