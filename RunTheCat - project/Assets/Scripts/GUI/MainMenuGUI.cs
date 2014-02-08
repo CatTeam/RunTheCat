@@ -25,7 +25,7 @@ public class MainMenuGUI : MonoBehaviour
 
     private AudioSource backgroundMusicSource;
 
-    private const int CREDITS_FONT_SIZE = 35;
+    private readonly int CREDITS_FONT_SIZE = 32 *Screen.height / 800;
     private const int MENU_HEIGHT = 265 * 2;
     private const int MENU_WIDTH = 210 * 2;
     private readonly int BUTTON_HEIGHT= Screen.height / 10;

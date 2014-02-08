@@ -96,8 +96,8 @@ public class GameGUI : MonoBehaviour
         level.normal.background = Resources.Load("Text/" + "level") as Texture2D;
 
         completed = new GUIStyle();
-        completed.fixedHeight = BUTTON_HEIGHT;
-        completed.fixedWidth = COMPL_LBL_WIDTH * BUTTON_HEIGHT / COMPL_LBL_HEIGHT;
+        completed.fixedHeight = BUTTON_HEIGHT - 11;
+        completed.fixedWidth = COMPL_LBL_WIDTH * completed.fixedHeight / COMPL_LBL_HEIGHT;
         completed.normal.background = Resources.Load("Text/" + "complete") as Texture2D;
 
         completed.margin.left = menu.margin.left = (int)(level.fixedWidth - completed.fixedWidth) / 2;
