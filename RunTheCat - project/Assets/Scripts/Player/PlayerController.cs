@@ -8,9 +8,9 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
     public bool moveEnabled = true;
+    public float iceMoveSpeedMultiplier = 2;
     public float moveSpeed = 10f;
     public float moveForce = 200f;
-    public float jumpForce = 50;
     public string mapLayerName = "Map";
     public float Ytarget = 0f;
     public float Ymargin = 1f;
@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
         GetInitialReferences();
         spawnPoint = transform.position;
         playerState = new PlayerState();
-        playerState.isFacingRight = true;
         LowPassFilter.Initialize();
     }
 
@@ -98,7 +97,7 @@ public class PlayerController : MonoBehaviour
         //dir.z = Input.acceleration.z;
 
         if (moveEnabled)
-            transform.Translate(Vector3.right * lean * Time.deltaTime * moveSpeed);
+            transform.Translate(Vector3.right * lean * Time.deltaTime * moveSpeed * (playerState.isOnIce == true? iceMoveSpeedMultiplier : 1));
         if(Time.timeScale!=0)
         {
             transform.rotation = Quaternion.identity;
