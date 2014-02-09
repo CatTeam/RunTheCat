@@ -205,9 +205,7 @@ public class GameGUI : MonoBehaviour
             Pause();
         }
 
-        // DEBUG: press F or Menu => level failed
-        if (((Input.GetKeyUp(KeyCode.F) || Input.GetKeyUp(KeyCode.Menu)) && Event.current.type == EventType.KeyUp)
-            || Player.instance.isLevelFailed)
+        if (Player.instance.isLevelFailed)
         {
             Pause();
             currentGUIMethod = FailedLevel;
