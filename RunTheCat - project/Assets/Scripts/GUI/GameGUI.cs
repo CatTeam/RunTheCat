@@ -6,6 +6,7 @@ public class GameGUI : MonoBehaviour
     private GUIStyle passedLevelBackground;
     private GUIStyle failedLevelBackground;
     private GUIStyle bigFrame;
+    private Font comicSans;
 
     private GUIStyle popupBackground;
     private GUIStyle next;
@@ -37,6 +38,7 @@ public class GameGUI : MonoBehaviour
     private const int MARGIN = 25 * 2;
     private const int LABEL_HEIGHT = 25 * 2;
     private int POPUP_WIDTH = 0;
+    private const int SCORE_FONT_SIZE = 12;
 
     private const int NEXT_BTN_WIDTH = 194;
     private const int NEXT_BTN_HEIGHT = 70;
@@ -175,6 +177,7 @@ public class GameGUI : MonoBehaviour
     void Awake()
     {
         LoadTextTextures();
+        comicSans = Resources.Load("Text/COMIC") as Font;
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         backgroundMusicSource.clip = backgroundMusic;
         backgroundMusicSource.loop = true;
@@ -197,7 +200,15 @@ public class GameGUI : MonoBehaviour
     #region GUIs
     void Game()
     {
-        GUI.Box(new Rect(0, 0, 100, 50), "Highscore: " + levelHighScore + "\nScore: " + Player.instance.Score.ToString());
+        GUI.skin.font = comicSans;
+        GUI.contentColor = Color.black;
+        var score_text_style = new GUIStyle();
+        score_text_style.fontSize = SCORE_FONT_SIZE;
+        GUILayout.BeginArea(new Rect(2, 2, Screen.width, Screen.height));
+        {
+            GUILayout.Label("Highscore: " + levelHighScore + "\nScore: " + Player.instance.Score.ToString(), score_text_style);
+        }
+        GUILayout.EndArea();
 
         if (Input.GetKeyUp(KeyCode.Escape) && Event.current.type == EventType.KeyUp)
         {
@@ -350,7 +361,7 @@ public class GameGUI : MonoBehaviour
     }
 
     void PassedLevel()
-    {
+    {        
         GUILayout.Label("", passedLevelBackground, GUILayout.Width(Screen.width), GUILayout.Height(Screen.height));
         GUILayout.BeginArea(new Rect((Screen.width - level.fixedWidth) / 4, MARGIN, Screen.width - (Screen.width - level.fixedWidth) / 2, Screen.height / 3));
         {
