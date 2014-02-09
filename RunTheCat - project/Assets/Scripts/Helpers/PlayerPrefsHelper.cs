@@ -15,7 +15,7 @@ public static class PlayerPrefsHelper
     {
         // save level highscore
         string key = string.Format(levelKeyFormat, level);
-        int lastHighScore = PlayerPrefs.GetInt(key, -1);
+        int lastHighScore = PlayerPrefs.GetInt(key, 0);
         if (score > lastHighScore)
         {
             PlayerPrefs.SetInt(key, score);
@@ -23,7 +23,7 @@ public static class PlayerPrefsHelper
         }
 
         // save finished level #
-        int lastFinishedLevel = PlayerPrefs.GetInt(finishedLevelsKey, -1);
+        int lastFinishedLevel = PlayerPrefs.GetInt(finishedLevelsKey, 0);
         if (lastFinishedLevel < level)
         {
             PlayerPrefs.SetInt(finishedLevelsKey, level);
@@ -34,7 +34,7 @@ public static class PlayerPrefsHelper
     public static int GetLevelHighScore(int level)
     {
         string key = string.Format(levelKeyFormat, level);
-        return PlayerPrefs.GetInt(key, -1);
+        return PlayerPrefs.GetInt(key, 0);
     }
 
     public static int GetFinishedLevelsNo()
