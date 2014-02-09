@@ -7,7 +7,7 @@ public class MainMenuGUI : MonoBehaviour
 
 
     public GUIStyle LevelText;
-    public int LevelsCount = 6;
+    public int LevelsCount = 2;
     public int levelsInRow = 4;
 
     public AudioClip buttonSound;
