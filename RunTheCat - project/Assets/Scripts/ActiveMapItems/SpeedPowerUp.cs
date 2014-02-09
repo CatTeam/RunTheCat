@@ -12,6 +12,7 @@ public class SpeedPowerUp : MonoBehaviour
             if (other.gameObject.tag == "Player")
             {
                 Terrain.instance.normalSpeed += speed;
+                Terrain.instance.minimumSpeed += speed;
                 gameObject.SetActive(false);
                 Debug.Log(string.Format("Speed delta: {0}, terrain new speed: {1}",
                                         speed, Terrain.instance.normalSpeed));
