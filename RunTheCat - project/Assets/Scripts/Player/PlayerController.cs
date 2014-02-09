@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         if (collider2D.enabled)
         {
             playerState.isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer(mapLayerName));
-            if (playerState.isGrounded)
+            if (playerState.isGrounded && !playerState.isOnIce)
             {
                 //rigidbody2D.AddForce(new Vector2(0, jumpForce));
                 Terrain.SetSpeed(Terrain.instance.minimumSpeed);
