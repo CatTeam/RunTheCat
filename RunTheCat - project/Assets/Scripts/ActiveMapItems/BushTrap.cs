@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BushTrap : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class BushTrap : MonoBehaviour
             {
                 Terrain.ChangeAndSaveSpeed(playerSpeed);
                 isPlayerTrapped = true;
+                PlayerController.instance.moveEnabled = false;
                 Debug.Log("player trapped" + isPlayerTrapped);
             }
         }
@@ -30,14 +32,16 @@ public class BushTrap : MonoBehaviour
                 Vector3 currentAcceleration = Input.acceleration;
                 Debug.Log(string.Format("Difficulty: {0}, input: x={1}, y={2}, z={3}",
                             trapDifficulty, currentAcceleration.x, currentAcceleration.y, currentAcceleration.z));
-                // TODO: check if playable
-                trapDifficulty -= 5 * (currentAcceleration.x + currentAcceleration.y);
+                trapDifficulty -= 0.3f * Math.Abs(currentAcceleration.x + currentAcceleration.y);
             }
             else if (trapDifficulty <= 0)
             {
+                Debug.Log("player free");
                 isPlayerTrapped = false;
+                this.gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
                 this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 Terrain.RestoreSpeed();
+                PlayerController.instance.moveEnabled = true;
             }
         }
     }
