@@ -26,7 +26,7 @@ public class GameGUI : MonoBehaviour
     public Texture buttonTexture;
 
     public AudioClip buttonSound;
-    public AudioClip backgroundMusic;
+    private AudioClip backgroundMusic;
 
     private AudioSource backgroundMusicSource;
 
@@ -178,10 +178,12 @@ public class GameGUI : MonoBehaviour
     {
         LoadTextTextures();
         comicSans = Resources.Load("Text/COMIC") as Font;
+        backgroundMusic = Resources.Load("Sounds/music2") as AudioClip;
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         backgroundMusicSource.clip = backgroundMusic;
         backgroundMusicSource.loop = true;
         backgroundMusicSource.volume = 0.1f;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
     void Start()
     {

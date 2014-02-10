@@ -11,7 +11,7 @@ public class MainMenuGUI : MonoBehaviour
     public int levelsInRow = 4;
 
     public AudioClip buttonSound;
-    public AudioClip backgroundMusic;
+    private AudioClip backgroundMusic;
 
     private GUIStyle mainMenuBackground;
     private GUIStyle play;
@@ -54,6 +54,7 @@ public class MainMenuGUI : MonoBehaviour
     void Awake()
     {
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        backgroundMusic = Resources.Load("Sounds/music2") as AudioClip;
         backgroundMusicSource.clip = backgroundMusic;
         backgroundMusicSource.loop = true;
         backgroundMusicSource.volume = 0.1f;
