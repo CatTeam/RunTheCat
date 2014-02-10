@@ -177,8 +177,8 @@ public class GameGUI : MonoBehaviour
     void Awake()
     {
         LoadTextTextures();
-        comicSans = Resources.Load("Text/COMIC") as Font;
-        backgroundMusic = Resources.Load("Sounds/music2") as AudioClip;
+        comicSans = Resources.Load("Text/cheri") as Font;
+        backgroundMusic = Resources.Load("Sounds/music") as AudioClip;
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         backgroundMusicSource.clip = backgroundMusic;
         backgroundMusicSource.loop = true;

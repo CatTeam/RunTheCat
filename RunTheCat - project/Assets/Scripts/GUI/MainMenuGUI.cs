@@ -54,7 +54,7 @@ public class MainMenuGUI : MonoBehaviour
     void Awake()
     {
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        backgroundMusic = Resources.Load("Sounds/music2") as AudioClip;
+        backgroundMusic = Resources.Load("Sounds/music") as AudioClip;
         backgroundMusicSource.clip = backgroundMusic;
         backgroundMusicSource.loop = true;
         backgroundMusicSource.volume = 0.1f;
@@ -231,6 +231,7 @@ public class MainMenuGUI : MonoBehaviour
     {
         var credits_text_style = new GUIStyle();
         credits_text_style.fontSize = CREDITS_FONT_SIZE;
+        credits_text_style.font = Resources.Load("Text/Arial") as Font;
         GUI.contentColor = Color.black;
         GUILayout.Label("", frame, GUILayout.Width(Screen.width), GUILayout.Height(Screen.height));
         GUILayout.BeginArea(new Rect((Screen.width - credits_label.fixedWidth) / 2, MARGIN * 2, Screen.width - (Screen.width - credits_label.fixedWidth) / 2, Screen.height / 6));

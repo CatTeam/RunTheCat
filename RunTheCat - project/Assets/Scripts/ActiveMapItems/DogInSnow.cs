@@ -9,6 +9,7 @@ public class DogInSnow : MonoBehaviour
         {
             if (other.gameObject.tag == "Player")
 			{
+                audio.Play();
 				Player.instance.isLevelFailed = true;
             }
         }

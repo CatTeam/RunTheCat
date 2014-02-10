@@ -11,7 +11,10 @@ public class BonusPowerUp : MonoBehaviour
             if (other.gameObject.tag == "Player")
             {
                 Player.instance.Score += PointsGotten;
-				gameObject.SetActive(false);
+                audio.Play();
+                GetComponent<SpriteRenderer>().enabled = false;
+                foreach (Collider2D c in GetComponents<Collider2D>())
+                    c.enabled = false;
             }
         }
     }

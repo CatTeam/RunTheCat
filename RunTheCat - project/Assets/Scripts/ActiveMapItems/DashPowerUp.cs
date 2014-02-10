@@ -41,7 +41,10 @@ public class DashPowerUp : MonoBehaviour
                 Player.instance.transform.GetComponent<CircleCollider2D>().enabled = false;
                 Terrain.ChangeAndSaveSpeed(SPEED);
                 Player.instance.GetComponent<SpriteRenderer>().sortingLayerName = "PlayerDashing";
-                this.renderer.enabled = false;
+                GetComponent<SpriteRenderer>().enabled = false;
+                foreach (Collider2D c in GetComponents<Collider2D>())
+                    c.enabled = false;
+                audio.Play();
             }
         }
     }

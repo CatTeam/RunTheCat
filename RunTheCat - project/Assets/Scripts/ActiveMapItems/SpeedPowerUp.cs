@@ -13,7 +13,10 @@ public class SpeedPowerUp : MonoBehaviour
             {
                 Terrain.instance.normalSpeed += speed;
                 Terrain.instance.minimumSpeed += speed;
-                gameObject.SetActive(false);
+                GetComponent<SpriteRenderer>().enabled = false;
+                foreach (Collider2D c in GetComponents<Collider2D>())
+                    c.enabled = false;
+                audio.Play();
                 Debug.Log(string.Format("Speed delta: {0}, terrain new speed: {1}",
                                         speed, Terrain.instance.normalSpeed));
             }
