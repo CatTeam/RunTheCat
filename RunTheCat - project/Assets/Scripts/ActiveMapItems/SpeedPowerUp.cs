@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpeedPowerUp : MonoBehaviour
 {
-    public int speed;
+    public float SpeedPercentage;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -11,14 +11,14 @@ public class SpeedPowerUp : MonoBehaviour
         {
             if (other.gameObject.tag == "Player")
             {
-                Terrain.instance.normalSpeed += speed;
-                Terrain.instance.minimumSpeed += speed;
+                Terrain.instance.normalSpeed *= SpeedPercentage;
+                Terrain.instance.minimumSpeed *= SpeedPercentage;
                 GetComponent<SpriteRenderer>().enabled = false;
                 foreach (Collider2D c in GetComponents<Collider2D>())
                     c.enabled = false;
                 audio.Play();
                 Debug.Log(string.Format("Speed delta: {0}, terrain new speed: {1}",
-                                        speed, Terrain.instance.normalSpeed));
+                                        SpeedPercentage, Terrain.instance.normalSpeed));
             }
         }
     }
